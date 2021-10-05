@@ -1,0 +1,28 @@
+public class LeadInserts {
+
+    public static void criarTarefas(List<Lead> listaDeLeads){
+        List<Task> listaDeTarefas = new List<Task>();
+        
+        for(Lead leadTests : listaDeLeads){
+        	Task novaTarefa = new Task();
+        	novaTarefa.Subject = leadTests.FormasDeContato__c;
+        	novaTarefa.Status = 'Not started';
+        	novaTarefa.WhoId = leadTests.Id;
+            listaDeTarefas.add(novaTarefa);
+            if(leadTests.FormasDeContato__c == 'SMS' || leadTests.FormasDeContato__c == 'Whatsapp'){
+                insert listaDeTarefas;
+            }else if(leadTests.FormasDeContato__c == 'SMS' && leadTests.FormasDeContato__c == 'Whatsapp'){
+                insert listaDeTarefas;
+                insert listaDeTarefas;
+            }else if(leadTests.FormasDeContato__c == null){
+                try{
+                    insert listaDeTarefas;
+                } catch (exception ee){
+                    system.debug('ERRO');
+                }
+            }
+            }
+            
+                
+                
+                }

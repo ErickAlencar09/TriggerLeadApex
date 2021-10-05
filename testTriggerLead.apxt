@@ -1,0 +1,8 @@
+trigger testTriggerLead on Lead (after insert) {
+
+    if(Trigger.isAfter){
+        LeadInserts.criarTarefas(Trigger.new);
+    }
+        
+    
+}
