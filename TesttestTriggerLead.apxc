@@ -1,0 +1,48 @@
+@isTest
+public class TesttestTriggerLead {
+
+    @isTest static void testandoCondicao1(){
+       Lead lead1 = CriarLeads.criaLead('Joao', 'Silva', 'Atlantico', 'SMS');
+       Test.startTest();
+        insert lead1;
+       Test.stopTest();
+       System.assertEquals( 1 ,[SELECT COUNT() FROM Task WHERE Subject = 'SMS' AND WhoId =: lead1.Id]);
+        
+    }
+    @isTest static void testandoCondicao2(){
+       Lead lead2 = CriarLeads.criaLead('Artur', 'Silva', 'Atlantico', 'Whatsapp');
+       Test.startTest();
+        insert lead2;
+       Test.stopTest();
+       System.assertEquals( 1 ,[SELECT COUNT() FROM Task WHERE Subject = 'Whatsapp' AND WhoId =: lead2.Id]);     
+    }
+    @isTest static void testandoCondicao3(){
+       Lead lead3 = CriarLeads.criaLead('Joao', 'Silva', 'Atlantico', 'SMS ; Whatsapp');
+       Test.startTest();
+        insert lead3;
+       Test.stopTest();
+       System.assertEquals( 2 , [SELECT COUNT() FROM Task WHERE (Subject = 'SMS' OR Subject = 'Whatsapp') AND WhoId =: lead3.Id]);
+	}
+    @isTest static void testandoCondicao4(){
+       Lead lead4 = CriarLeads.criaLead('Renan', 'Silva', 'Atlantico', 'Email');
+       Test.startTest();
+        insert lead4;
+       Test.stopTest();
+       System.assertEquals( 0 ,[SELECT COUNT() FROM Task WHERE Subject = 'Email' AND WhoId =: lead4.Id]);
+	}
+   @isTest static void testandoCondicao5(){
+       List<Lead> leads = new List<Lead>();
+       for(Integer i = 0; i < 500;i++){
+           leads.add(CriarLeads.criaLead('Renan' + i , 'Silva' + i , 'generic'+ i , 'SMS;Whatsapp'));
+       }
+       Test.startTest();
+        insert leads;
+       Test.stopTest();
+       List<Id> leadsId = new List<Id>();
+       for(Lead a : leads ){
+       		leadsId.add(a.Id);
+       }
+       System.debug('Quantidade de tarefas inseridas: ' + [SELECT COUNT() FROM Task WHERE (Subject = 'SMS' OR Subject='Whatsapp') AND WhoId =: leadsId] );
+       System.assertEquals(1000 ,[SELECT COUNT() FROM Task WHERE (Subject = 'SMS' OR Subject='Whatsapp') AND WhoId =: leadsId]);
+	}
+}
