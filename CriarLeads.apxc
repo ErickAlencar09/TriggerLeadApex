@@ -1,0 +1,10 @@
+public class CriarLeads {
+    public static Lead criaLead(String primeiroNome , String sobrenome , String compania, String formasDeContato){
+        Lead lead = new Lead();
+        lead.FormasDeContato__c = formasDeContato;
+        lead.FirstName = primeiroNome;
+        lead.LastName = sobrenome;
+        lead.Company = compania;
+        return lead;        
+    }
+}
