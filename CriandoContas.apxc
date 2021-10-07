@@ -1,0 +1,26 @@
+public class CriandoContas {
+
+    public static void CriarAcc(){
+            Account acctMaster = new Account(Name='conta de teste 1', BillingCity= 'Fortaleza');
+        	List<Account> listAccs = new List<Account>();
+            Account acct2 = new Account(Name='conta de teste 2', BillingCity='Caucaia');
+            Account acct3 = new Account(Name='conta de teste 3', BillingCity='Maracanaú');
+        	listAccs.add(acct2);
+       		listAccs.add(acct3);
+            insert acctMaster;
+        	insert listAccs;
+            Contact con1 = new Contact(lastName='sobrenome teste 1', AccountId=acctMaster.Id);
+            Contact con2 = new Contact(lastName='sobrenome teste 2', AccountId=acct2.Id);
+            Contact con3 = new Contact(lastName='sobrenome teste 3', AccountId=acct3.Id);
+            insert con1;
+            insert con2;
+            insert con3;            
+        try{
+            merge acctMaster listAccs;
+        }catch(DmlException e){
+            System.debug('Um erro inesperado ocorreu ' + e.getMessage());
+        }
+        undelete listAccs;
+        
+    }    
+}
